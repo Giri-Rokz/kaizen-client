@@ -29,7 +29,7 @@ export class Login extends Utils{
                         </select>
                     </div>
                     <div class="formElement">
-                        <input type="text" placeholder="Password" name="password" id="password" value="">
+                        <input type="password" placeholder="Password" name="password" id="password" value="">
                     </div>
                     <center><div class="error" style="display:none">Please enter valid credentials</div></center>
                     <button type="button" id="signIn">Sign In</button>

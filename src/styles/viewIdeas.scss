@@ -32,8 +32,15 @@
         cursor: pointer;
     }
     button {
-        padding: 1vh 2vh;
-        width: 23%;
+        padding: 1vh 3vw;
+    }
+}
+
+@media(max-width:320px) {
+    .actions {
+        button {
+            padding: 1vh 2vw;
+        }
     }
 }
 
