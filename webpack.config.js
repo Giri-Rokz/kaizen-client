@@ -61,6 +61,5 @@ module.exports = {
         assetModuleFilename: "images/[hash][ext][query]",
         clean: true
     },
-    devtool: 'source-map',
-    watch: true
+    devtool: 'source-map'
 }
