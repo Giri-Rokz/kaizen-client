@@ -19,7 +19,7 @@ export class Login extends Utils{
             <div id="signInForm">
                 <form> 
                     <div class="formElement">
-                        <input type="text" tabindex="0" placeholder="Username" name="username" id="username" value="GR">
+                        <input type="text" tabindex="0" placeholder="Username" name="username" id="username" value="">
                     </div>
                     <div class="roleContainer formElement">
                         <select name="role" id="role">
@@ -29,7 +29,7 @@ export class Login extends Utils{
                         </select>
                     </div>
                     <div class="formElement">
-                        <input type="text" placeholder="Password" name="password" id="password" value="1">
+                        <input type="text" placeholder="Password" name="password" id="password" value="">
                     </div>
                     <center><div class="error" style="display:none">Please enter valid credentials</div></center>
                     <button type="button" id="signIn">Sign In</button>
