@@ -1,0 +1,77 @@
+@use 'config' as *;
+@use 'login' as *;
+@use 'viewIdeas' as *;
+@use 'landingPage' as *;
+@use 'submitIdea' as *;
+
+* {
+    box-sizing: border-box;
+}
+
+body {    
+    font-size: 1.2em;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: black,helvetica,arial,sans-serif;
+}
+
+input[type="text"],select,textarea {
+    padding: 2% 1.5%;
+    border: 1px solid darkslategray;
+    border-radius: 4px;
+}
+
+#overlay {
+    display: none;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #2F3941;
+    opacity: 0.7;
+}
+
+#modal {
+    display: none;
+    z-index: 2;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    width: 60vw;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+.modal-content {
+    padding: 4vw;
+}
+.modal-actions {
+    padding: 2vw 0;
+
+    button {
+        padding: 1vh 4vw;
+    }
+}
+
+button {
+    @include button-css;
+}
+a {
+    text-decoration: none;
+    color: $primary;
+}
+h3 {
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+@media(min-width:768px) {
+    #mainContainer {
+        padding: 3vw;
+        max-width: 1000px;
+        margin: 0 10vw;
+    }
+}

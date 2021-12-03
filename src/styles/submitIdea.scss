@@ -1,0 +1,40 @@
+@use 'config' as *;
+
+#submitIdeaContainer {
+    padding: 18vh 0 0 0;
+
+    .inputContainer {
+        div {
+            padding: 3vh;
+            input,textarea {
+                width: 100%
+            }
+            textarea {
+                height: 8vh;
+            }
+        }
+        button {
+            padding: 1.6vh 2vh;
+        }
+        .actionDiv {
+            @include flex-evenly;
+        }
+    }
+}
+
+@media(min-width:769px) {
+    #submitIdeaContainer {
+        padding: 10vh 0 0 0;
+        .inputContainer {
+            div {
+                textarea {
+                    height: 12vh;
+                }
+            }
+                       
+            button {
+                padding: 2.3vh 7vh;
+            }
+        }       
+    }   
+}

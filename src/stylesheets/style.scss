@@ -1,0 +1,21 @@
+@import './config.scss';
+
+@mixin flex {
+  display: flex;
+}
+html {
+  font-family: Interstate Verdana sans-serif;
+  padding: 0.6em;
+  background-color: $primary-color;
+}
+html,body {
+  height: 100%;
+  margin: 0.5%;
+}
+body {
+  @include flex;
+  flex-direction: column;
+}
+* {
+  box-sizing: border-box;
+}

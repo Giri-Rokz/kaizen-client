@@ -1,0 +1,51 @@
+@use 'config' as *;
+
+.viewIterableContainer {
+    padding: 2vh 1vh;
+}
+.back {
+    @include button-css;
+    padding: 1vh 2vh;
+    width: 23%;
+}
+
+.ideaContainer {
+    .ideaTitle,.ideaDescription {
+        padding: 1vh 0;
+    }
+    .ideaTitle {
+        font-size: 1.2em;
+        padding: 0 0 1.5vh 0;
+    }
+}
+
+.actions {
+    @include flex-evenly;
+
+    > button,div {
+        margin: 3vh 1.6vw;
+    }
+    .likeCount {
+        padding: 0 0 0 1vw
+    }
+    .like {
+        cursor: pointer;
+    }
+    button {
+        padding: 1vh 2vh;
+        width: 23%;
+    }
+}
+
+@media(min-width:769px) {
+    .actions {
+        button {
+            width: 15%;
+            padding: 1.3vh 0;
+        }
+    }
+    .viewIdeasPage button {
+        width: 14%;
+        padding: 3vh;
+    }
+}

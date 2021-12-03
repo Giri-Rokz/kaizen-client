@@ -1,0 +1,30 @@
+@use 'config' as *;
+
+#landingContainer {
+    padding: 20vh 0 0 0;
+
+    div {
+        padding: 5vh 3vh;
+    }
+    .cardContainer {
+        @include flex-evenly;
+        
+        button {
+            padding: 1.6vh 2vh;
+        }
+    }
+}
+
+@media(min-width:769px) {
+    #landingContainer {
+        padding: 10vh 0 0 0;
+        div {
+            padding: 7vh;
+        }
+        .cardContainer {
+            button {
+                padding: 3vh 8vh;
+            }
+        }   
+    }      
+}
