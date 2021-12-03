@@ -12,7 +12,7 @@ export class ViewIdeas extends Utils {
     private async getIdeas():Promise<customIdeas[]> {
         return await (<any>await axios.get("/getIdeas")).data.ideas;
     }
-    async render(data:{ideas:customIdeas[]}) {
+    async render(data:{ideas:customIdeas[]}) {        
         let container: HTMLElement = document.createElement('div');        
         const actionsTemplate: HTMLTemplateElement = document.createElement('template');
         if(!data.ideas.length) {
@@ -73,11 +73,11 @@ export class ViewIdeas extends Utils {
     }
     private editIdeasRecord(url:string,e:Event,likeCount?:number,like?:boolean) {
         const postBody:IdeaEditPayload = {
-            ideaUUID: (<HTMLElement>e.target)!.parentElement!.parentElement!.getAttribute('data-id')!, //added ! to make sure the element won't return null or undefined
+            ideaUUID: ((<HTMLElement>e.target)!.parentElement!.getAttribute('data-id')! || (<HTMLElement>e.target)!.parentElement!.parentElement!.getAttribute('data-id')!), //added ! to make sure the element won't return null or undefined
             userName: this.userName
         }
         if(like) {
-            postBody.likes = likeCount;            
+            postBody.likes = likeCount;
         } else {
             this.showModal("Your actions have been recorded");
         }

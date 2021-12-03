@@ -59,6 +59,7 @@ export class Login extends Utils{
         document.querySelector('#createAccount')?.addEventListener('click',this.createAccount.bind(this));
     }
     private createAccount() {
+        this.showHideLoader(true);
         const postBody:Payload<string|number> = {
             username: (<HTMLInputElement>document.querySelector('#username'))?.value,
             password: (<HTMLInputElement>document.querySelector('#password'))?.value,
@@ -67,13 +68,17 @@ export class Login extends Utils{
         this.userName = postBody.username;
         axios.post('/signUp',postBody,{'headers':this.headers})
         .then(resp=>{
+            this.showHideLoader(false);
             if(resp && resp.data.role=="1") {
                 new LandingPage(this.userName).render();
             } else {
                 new ViewIdeas("Admin",this.userName).render({ideas:[]});        
             }
         })
-        .catch(err=>console.log(err));
+        .catch(err=>{
+            console.log(err);
+            this.showHideLoader(false);
+        });
     }
     private signUp() {        
         this.signUpFlow = true;
@@ -81,6 +86,7 @@ export class Login extends Utils{
         this.showHideDOM(['#signIn','.newUser'],false);
     }
     private signIn() {
+        this.showHideLoader(true);
         const postBody:Payload<string|number> = {
             username: (<HTMLInputElement>document.querySelector('#username'))?.value,
             password: (<HTMLInputElement>document.querySelector('#password'))?.value
@@ -91,15 +97,17 @@ export class Login extends Utils{
                 this.showHideDOM(['.error'],false);
             }
             this.userName = resp.data.user.username;
+            this.showHideLoader(false);
             if(resp && resp.data.user.role=="1") {                
                 new LandingPage(this.userName).render();
             } else {
                 new ViewIdeas("Admin",this.userName).render({ideas:[]});        
             }
         })
-        .catch(err=>{
+        .catch(err=>{            
             console.log(err);
             this.showHideDOM(['.error'],true);
+            this.showHideLoader(false);
         });
     }
 }

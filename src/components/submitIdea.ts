@@ -46,6 +46,7 @@ export class SubmitIdea extends Utils{
     }
     private submit() {
         if(this.validate()) {
+            this.showHideLoader(true);
             if(document.querySelector('.error')) {
                 this.showHideDOM(['.error'],false);
             }
@@ -58,6 +59,7 @@ export class SubmitIdea extends Utils{
             }
             axios.post('/submitIdea',payload,{'headers':this.headers})
             .then(()=>{
+                this.showHideLoader(false);
                 this.showModal("Hurray! Your idea has been submitted successfully!");
                 (<HTMLInputElement>document.querySelector('#title'))!.value = "";
                 (<HTMLInputElement>document.querySelector('#description'))!.value = "";

@@ -5,8 +5,7 @@
 }
 .back {
     @include button-css;
-    padding: 1vh 2vh;
-    width: 23%;
+    padding: 2vh 3vh;
 }
 
 .ideaContainer {
@@ -14,8 +13,9 @@
         padding: 1vh 0;
     }
     .ideaTitle {
-        font-size: 1.2em;
-        padding: 0 0 1.5vh 0;
+        font-size: 1.15em;
+        padding: 0 0 2vh 0;
+        font-weight: 600;
     }
 }
 

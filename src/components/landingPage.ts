@@ -5,6 +5,7 @@ export class LandingPage extends Utils {
         super();
     }
     render() {
+        this.showHideLoader(false);
         this.cleanUp();
         const landingTemplate: HTMLTemplateElement = document.createElement('template');
         landingTemplate.innerHTML = `<div id="landingContainer">

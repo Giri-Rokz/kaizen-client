@@ -37,4 +37,13 @@ export class Utils {
         });
         this.showHideDOM(['#modal','#overlay'],true);
     }
+    protected showHideLoader(val: boolean) {
+        if(val) {
+            this.showHideDOM(['.fa-3x','#overlay'],true);
+        } else {
+            if(document.querySelector('.fa-3x') && document.querySelector('#overlay')) {
+                this.showHideDOM(['.fa-3x','#overlay'],false);
+            }
+        }
+    }
 }
