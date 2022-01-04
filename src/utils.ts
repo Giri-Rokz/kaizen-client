@@ -40,7 +40,7 @@ export class Utils {
         }
     }
     protected gotoLanding() {
-        window.history.pushState(this.state,"Landing Page","/landingPage");
+        window.history.pushState(this.state,"Landing Page","/#/landingPage");
         this.state.handleRoute();
     }
     protected showModal(content: string) {

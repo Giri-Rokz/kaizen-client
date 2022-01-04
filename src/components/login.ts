@@ -91,11 +91,11 @@ export class Login extends Utils{
             .then(resp=>{
                 this.showHideLoader(false);
                 if(resp && resp.data.role=="1") {
-                    window.history.pushState(this.state,"Landing Page","/landingPage");
+                    window.history.pushState(this.state,"Landing Page","/#/landingPage");
                     this.state.handleRoute();
                 } else {
                     this.state.setRole = "Admin";
-                    window.history.pushState(this.state,"View Ideas","/viewIdeas");
+                    window.history.pushState(this.state,"View Ideas","/#/viewIdeas");
                     this.state.handleRoute();
                 }
             })
@@ -129,11 +129,11 @@ export class Login extends Utils{
                 this.state.setLoginState = true;
                 this.showHideLoader(false);
                 if(resp && resp.data.user.role=="1") {
-                    window.history.pushState({"paths":window.location.pathname},"Landing Page","/landingPage");
+                    window.history.pushState({"paths":window.location.pathname},"Landing Page","/#/landingPage");
                     this.state.handleRoute();
                 } else {
                     this.state.setRole = "Admin";
-                    window.history.pushState(this.state,"View Ideas","/viewIdeas");
+                    window.history.pushState(this.state,"View Ideas","/#/viewIdeas");
                     this.state.handleRoute();
                 }
             })

@@ -26,11 +26,11 @@ export class LandingPage extends Utils {
     }
     private goToViewIdeas() {
         this.showHideLoader(true);
-        window.history.pushState(this.state,"View Ideas","/viewIdeas");
+        window.history.pushState(this.state,"View Ideas","/#/viewIdeas");
         this.state.handleRoute();
     }
     private submitIdea() {
-        window.history.pushState(this.state,"Submit Idea","/submitIdea");
+        window.history.pushState(this.state,"Submit Idea","/#/submitIdea");
         this.state.handleRoute();
     }
 }

@@ -36,7 +36,7 @@ export class State {
     handleRoute() {
         const currentRoute = this.getRoute();        
         switch(currentRoute) {
-            case '/viewIdeas':
+            case '#/viewIdeas':
                 if(this.getLoginState) {
                     new ViewIdeas().render({ideas:[]});
                 } else {
@@ -44,7 +44,7 @@ export class State {
                     new Login().render();
                 }
                 break;
-            case '/landingPage':
+            case '#/landingPage':
                 if(this.getLoginState) {
                     new LandingPage().render();
                 } else {
@@ -52,7 +52,7 @@ export class State {
                     new Login().render();
                 }
                 break;                
-            case '/submitIdea':
+            case '#/submitIdea':
                 if(this.getLoginState) {
                     new SubmitIdea().render();
                 } else {
@@ -66,7 +66,7 @@ export class State {
         }
     }
     getRoute() {
-        return window.location.pathname;
+        return window.location.hash;
     }
     /*authGuard(Component: ()=>void) {
         if(this.getLoginState) {

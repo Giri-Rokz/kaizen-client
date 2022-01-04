@@ -62,4 +62,5 @@ module.exports = {
         clean: true
     },
     devtool: 'source-map'
+    //watch: true
 }
