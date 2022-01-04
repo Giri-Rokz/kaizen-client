@@ -40,6 +40,7 @@ export class State {
                 if(this.getLoginState) {
                     new ViewIdeas().render({ideas:[]});
                 } else {
+                    window.history.pushState(this,"Login page","/");
                     new Login().render();
                 }
                 break;
@@ -47,6 +48,7 @@ export class State {
                 if(this.getLoginState) {
                     new LandingPage().render();
                 } else {
+                    window.history.pushState(this,"Login page","/");
                     new Login().render();
                 }
                 break;                
@@ -54,6 +56,7 @@ export class State {
                 if(this.getLoginState) {
                     new SubmitIdea().render();
                 } else {
+                    window.history.pushState(this,"Login page","/");
                     new Login().render();
                 }
                 break;                
