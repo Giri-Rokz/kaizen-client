@@ -6,13 +6,15 @@ type customIdeas = Idea<string|number>; //custom type
 
 export class ViewIdeas extends Utils {
     ideasArray: customIdeas[] = []; //Generic interface with array type here
-    constructor(public role:string, public userName:string|number) { //shorthand initialization used here
+    constructor() { //shorthand initialization used here
         super();
     }
     private async getIdeas():Promise<customIdeas[]> {
         return await (<any>await axios.get("/getIdeas")).data.ideas;
     }
-    async render(data:{ideas:customIdeas[]}) {        
+    async render(data:{ideas:customIdeas[]}) {
+        this.showHideLoader(false);
+        this.showHideHeader('header',true);
         let container: HTMLElement = document.createElement('div');        
         const actionsTemplate: HTMLTemplateElement = document.createElement('template');
         if(!data.ideas.length) {
@@ -29,7 +31,7 @@ export class ViewIdeas extends Utils {
             <div class="ideaDescription">${idea.description}</div>
             </div>`;                
             viewIterableContainer?.appendChild(document.importNode(ideasTemplate.content,true));
-            if(this.role=="Admin") {
+            if(this.state.getRole == "Admin") {
                 actionsTemplate.innerHTML = `<div data-id="${idea.ideaUUID}" class="actions">
                     <div>
                         <i class="far fa-thumbs-up fa-lg like"></i><span class="likeCount">${idea.likes}</span>
@@ -44,11 +46,11 @@ export class ViewIdeas extends Utils {
         });
         const welcomeText = document.createElement('div');
         welcomeText.innerHTML = `<div class="welcomeHeader">
-        <center><h3>Welcome ${this.userName}</h3></center></div>`;
+        <center><h3>Welcome ${this.state.getUserName}</h3></center></div>`;
         this.cleanUp();
         document.querySelector('#mainContainer')?.appendChild(welcomeText);
         document.querySelector('.welcomeHeader')?.insertAdjacentElement("afterend",container);
-        if(this.role!= "Admin") {
+        if(this.state.getRole!= "Admin") {
             const backButton = document.createElement('div');
             backButton.className = "viewIdeasPage";
             backButton.innerHTML = `<center><button type="button" class="back">Go Back</button></center>`;
@@ -69,12 +71,12 @@ export class ViewIdeas extends Utils {
         Array.from(document.querySelectorAll('.like')).forEach((el:Element)=> {
             el.addEventListener('click',this.likeIdea.bind(this));
         });
-        document.querySelector('.back')?.addEventListener('click',()=>this.gotoLanding(this.userName));
+        document.querySelector('.back')?.addEventListener('click',()=>this.gotoLanding());
     }
     private editIdeasRecord(url:string,e:Event,likeCount?:number,like?:boolean) {
         const postBody:IdeaEditPayload = {
             ideaUUID: ((<HTMLElement>e.target)!.parentElement!.getAttribute('data-id')! || (<HTMLElement>e.target)!.parentElement!.parentElement!.getAttribute('data-id')!), //added ! to make sure the element won't return null or undefined
-            userName: this.userName
+            userName: this.state.getUserName
         }
         if(like) {
             postBody.likes = likeCount;

@@ -1,10 +1,9 @@
-import { LandingPage,Payload,ViewIdeas } from "../internal";
+import { Payload,Validate } from "../internal";
 import { Utils } from "../utils";
 import axios from 'axios';
 import logo from '../images/kaizen.jpg'
 
 export class Login extends Utils{
-    userName!: string | number;
     signUpFlow = false;
     render() {        
         const template: HTMLTemplateElement =  document.createElement('template');
@@ -38,12 +37,14 @@ export class Login extends Utils{
                         <center>New User? <a href="javascript:void(0)" id="signUp">Sign Up</a> here</center>
                     </div>
                 </form>
-            </div>
+                </div>
         </div>`;
+        this.cleanUp();
         this.appendToMain(template);
         document.querySelector('.kaizenLogo')?.setAttribute("src",logo);        
         this.setFavIcon();
         this.showHideDOM(['.roleContainer','#createAccount'],false);                
+        this.showHideHeader('header',false);
         this.setupListeners();
     }
     private setFavIcon() {
@@ -58,56 +59,91 @@ export class Login extends Utils{
         document.querySelector('#signIn')?.addEventListener('click',this.signIn.bind(this));
         document.querySelector('#createAccount')?.addEventListener('click',this.createAccount.bind(this));
     }
-    private createAccount() {
-        this.showHideLoader(true);
-        const postBody:Payload<string|number> = {
-            username: (<HTMLInputElement>document.querySelector('#username'))?.value,
-            password: (<HTMLInputElement>document.querySelector('#password'))?.value,
-            role: (<HTMLInputElement>document.querySelector('#role'))?.value,
-        };
-        this.userName = postBody.username;
-        axios.post('/signUp',postBody,{'headers':this.headers})
-        .then(resp=>{
-            this.showHideLoader(false);
-            if(resp && resp.data.role=="1") {
-                new LandingPage(this.userName).render();
-            } else {
-                new ViewIdeas("Admin",this.userName).render({ideas:[]});        
+    private validate():boolean {
+        const usernameValidation: Validate = {
+            value: (document.querySelector('#username')! as HTMLInputElement).value,
+            required: true
+        }
+        const passwordValidation: Validate = {
+            value: (document.querySelector('#password')! as HTMLInputElement).value,
+            required: true
+        }
+        if(this.signUpFlow) {
+            const roleValidation: Validate = {
+                value: (document.querySelector('#role')! as HTMLInputElement).value,
+                required: true,
+                selectValueCheck: true
             }
-        })
-        .catch(err=>{
-            console.log(err);
-            this.showHideLoader(false);
-        });
+            return this.validateData([usernameValidation,passwordValidation,roleValidation]);
+        }
+        return this.validateData([usernameValidation,passwordValidation]);
+    }
+    private createAccount() {
+        if(this.validate()) {
+            this.showHideLoader(true);
+            const postBody:Payload<string|number> = {
+                username: (<HTMLInputElement>document.querySelector('#username'))?.value,
+                password: (<HTMLInputElement>document.querySelector('#password'))?.value,
+                role: (<HTMLInputElement>document.querySelector('#role'))?.value,
+            };
+            this.state.setUserName = postBody.username;
+            axios.post('/signUp',postBody,{'headers':this.headers})
+            .then(resp=>{
+                this.showHideLoader(false);
+                if(resp && resp.data.role=="1") {
+                    window.history.pushState(this.state,"Landing Page","/landingPage");
+                    this.state.handleRoute();
+                } else {
+                    this.state.setRole = "Admin";
+                    window.history.pushState(this.state,"View Ideas","/viewIdeas");
+                    this.state.handleRoute();
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+                this.showHideLoader(false);
+            });
+        } else {
+            this.showHideDOM(['.error'],true);
+        }
     }
     private signUp() {        
         this.signUpFlow = true;
         this.showHideDOM(['.roleContainer','#createAccount'],true);
-        this.showHideDOM(['#signIn','.newUser'],false);
+        this.showHideDOM(['#signIn','.newUser', '.error'],false);
     }
     private signIn() {
-        this.showHideLoader(true);
-        const postBody:Payload<string|number> = {
-            username: (<HTMLInputElement>document.querySelector('#username'))?.value,
-            password: (<HTMLInputElement>document.querySelector('#password'))?.value
-        };
-        axios.post<any>('/signIn',postBody,{'headers':this.headers})//Axios response type would be of type AxiosResponse<any>
-        .then(resp=>{
-            if(document.querySelector('.error')) {
-                this.showHideDOM(['.error'],false);
-            }
-            this.userName = resp.data.user.username;
-            this.showHideLoader(false);
-            if(resp && resp.data.user.role=="1") {                
-                new LandingPage(this.userName).render();
-            } else {
-                new ViewIdeas("Admin",this.userName).render({ideas:[]});        
-            }
-        })
-        .catch(err=>{            
-            console.log(err);
+        debugger;
+        if(this.validate()) {
+            this.showHideLoader(true);
+            const postBody:Payload<string|number> = {
+                username: (<HTMLInputElement>document.querySelector('#username'))?.value,
+                password: (<HTMLInputElement>document.querySelector('#password'))?.value
+            };
+            axios.post<any>('/signIn',postBody,{'headers':this.headers})//Axios response type would be of type AxiosResponse<any>
+            .then(resp=>{
+                if(document.querySelector('.error')) {
+                    this.showHideDOM(['.error'],false);
+                }
+                this.state.setUserName = resp.data.user.username;
+                this.state.setLoginState = true;
+                this.showHideLoader(false);
+                if(resp && resp.data.user.role=="1") {
+                    window.history.pushState({"paths":window.location.pathname},"Landing Page","/landingPage");
+                    this.state.handleRoute();
+                } else {
+                    this.state.setRole = "Admin";
+                    window.history.pushState(this.state,"View Ideas","/viewIdeas");
+                    this.state.handleRoute();
+                }
+            })
+            .catch(err=>{            
+                console.log(err);
+                this.showHideDOM(['.error'],true);
+                this.showHideLoader(false);
+            });
+        } else {
             this.showHideDOM(['.error'],true);
-            this.showHideLoader(false);
-        });
+        }
     }
 }

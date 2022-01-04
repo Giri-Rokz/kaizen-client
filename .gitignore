@@ -1,2 +1,3 @@
+src/router.ts
 node_modules/
 dist/

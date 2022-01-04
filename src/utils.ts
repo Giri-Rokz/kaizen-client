@@ -1,10 +1,11 @@
 import { Validate } from "./interfaces/validateInterface";
-import { LandingPage } from "./internal";
+import { State } from "./internal";
 
 export class Utils {
     headers = {
         'Content-Type': 'application/json'
     }
+    protected state = State.getInstance();
     protected cleanUp() {
         while (document.querySelector('#mainContainer')?.firstChild) {
             document.querySelector('#mainContainer')?.removeChild(document.querySelector('#mainContainer')?.firstChild!);
@@ -15,6 +16,9 @@ export class Utils {
             (<HTMLDivElement>document.querySelector(selector[i])).style.display = changeDom ? 'block' : 'none';
         }
     }
+    protected showHideHeader(selector:string,changeDom:boolean) {
+        (<HTMLDivElement>document.querySelector(selector)).style.display = changeDom ? 'flex' : 'none';
+    }
     protected appendToMain(template:HTMLTemplateElement) {
         document.querySelector('#mainContainer')?.appendChild(document.importNode(template.content,true));
     }
@@ -24,11 +28,20 @@ export class Utils {
             if(item.required) {
                 isValid = isValid && item.value.trim().length != 0
             }
+            if(item.selectValueCheck) {
+                isValid = isValid && item.value.trim() != "0";
+            }
         })
         return isValid;
     }
-    protected gotoLanding(name: string|number) {
-        new LandingPage(name).render();
+    protected printError(selector: string) {
+        if(!document.querySelector('.error')) {
+            document.querySelector(selector)?.insertAdjacentHTML('beforebegin',`<div class="error"><center>Please enter all values</center></div>`);
+        }
+    }
+    protected gotoLanding() {
+        window.history.pushState(this.state,"Landing Page","/landingPage");
+        this.state.handleRoute();
     }
     protected showModal(content: string) {
         document.querySelector('.modal-content')!.innerHTML = content;

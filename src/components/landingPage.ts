@@ -1,15 +1,16 @@
-import { Utils,ViewIdeas,SubmitIdea } from "../internal";
+import { Utils } from "../internal";
 
 export class LandingPage extends Utils {
-    constructor(public userName:string|number) {
-        super();
+    constructor() {
+        super();        
     }
     render() {
         this.showHideLoader(false);
+        this.showHideHeader('header',true);
         this.cleanUp();
         const landingTemplate: HTMLTemplateElement = document.createElement('template');
         landingTemplate.innerHTML = `<div id="landingContainer">
-            <center><h3>Welcome ${this.userName}</h3></center>
+            <center><h3>Welcome ${this.state.getUserName}</h3></center>
             <center><div>What would you like to do today ?</div></center>
             <div class="cardContainer">
                 <button class="viewIdeas">View Recent Ideas</button>
@@ -24,9 +25,12 @@ export class LandingPage extends Utils {
         document.querySelector('.submitIdea')?.addEventListener('click',this.submitIdea.bind(this));
     }
     private goToViewIdeas() {
-        new ViewIdeas("Agent",this.userName).render({ideas:[]});
+        this.showHideLoader(true);
+        window.history.pushState(this.state,"View Ideas","/viewIdeas");
+        this.state.handleRoute();
     }
     private submitIdea() {
-        new SubmitIdea(this.userName).render();
+        window.history.pushState(this.state,"Submit Idea","/submitIdea");
+        this.state.handleRoute();
     }
 }

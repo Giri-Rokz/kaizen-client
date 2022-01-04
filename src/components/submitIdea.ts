@@ -5,10 +5,11 @@ import {v4 as uuidv4} from "uuid";
 import { Validate } from "../interfaces/validateInterface";
 
 export class SubmitIdea extends Utils{    
-    constructor(public userName:string|number) {
+    constructor() {
         super();
     }
     render() {
+        this.showHideHeader('header',true);
         this.cleanUp();
         const submitIdeaTemplate: HTMLTemplateElement = document.createElement('template');
         submitIdeaTemplate.innerHTML = `<div id="submitIdeaContainer">
@@ -31,7 +32,7 @@ export class SubmitIdea extends Utils{
     }
     private setupListeners() {
         document.querySelector('.submit')?.addEventListener('click',this.submit.bind(this));
-        document.querySelector('.goback')?.addEventListener('click',()=>this.gotoLanding(this.userName));
+        document.querySelector('.goback')?.addEventListener('click',()=>this.gotoLanding());
     }
     private validate():boolean {
         const titleValidation: Validate = {
@@ -53,7 +54,7 @@ export class SubmitIdea extends Utils{
             const payload:Idea<string|number> = {
                 title: (<HTMLInputElement>document.querySelector('#title'))?.value,
                 description: (<HTMLInputElement>document.querySelector('#description'))?.value,
-                submitted_by: this.userName,
+                submitted_by: this.state.getUserName,
                 ideaUUID: uuidv4(),
                 likes: 0
             }
@@ -66,12 +67,7 @@ export class SubmitIdea extends Utils{
             })
             .catch(err=>console.log(`Error in submitting idea : ${err}`));
         } else {
-          this.printError();
+          this.printError('.actionDiv');
         }
-    }
-    private printError() {
-        if(!document.querySelector('.error')) {
-            document.querySelector('.actionDiv')?.insertAdjacentHTML('beforebegin',`<div class="error"><center>Please enter all values</center></div>`);
-        }
-    }
+    }    
 }
