@@ -109,7 +109,7 @@ export class Login extends Utils{
     private signUp() {        
         this.signUpFlow = true;
         this.showHideDOM(['.roleContainer','#createAccount'],true);
-        this.showHideDOM(['#signIn','.newUser', '.error'],false);
+        this.showHideDOM(['#signIn','.newUser','.error'],false);
     }
     private signIn() {
         if(this.validate()) {

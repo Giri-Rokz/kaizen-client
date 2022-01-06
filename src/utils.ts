@@ -62,6 +62,8 @@ export class Utils {
     protected signOutListener() {
         document.querySelector('#signOut')?.addEventListener('click',()=>{
             this.state.setLoginState = false;
+            this.state.setRole = "";
+            this.state.setUserName = "";
             window.history.pushState(this.state,"Login","/");
             this.state.handleRoute();
         });
