@@ -12,9 +12,7 @@ export class ViewIdeas extends Utils {
     private async getIdeas():Promise<customIdeas[]> {
         return await (<any>await axios.get("/getIdeas")).data.ideas;
     }
-    async render(data:{ideas:customIdeas[]}) {
-        this.showHideLoader(false);
-        this.showHideHeader('header',true);
+    async render(data:{ideas:customIdeas[]}) {        
         let container: HTMLElement = document.createElement('div');        
         const actionsTemplate: HTMLTemplateElement = document.createElement('template');
         if(!data.ideas.length) {
@@ -48,6 +46,7 @@ export class ViewIdeas extends Utils {
         welcomeText.innerHTML = `<div class="welcomeHeader">
         <center><h3>Welcome ${this.state.getUserName}</h3></center></div>`;
         this.cleanUp();
+        document.querySelector('header')?.appendChild(document.importNode((document.querySelector('#headerTemplate')! as HTMLTemplateElement).content,true));
         document.querySelector('#mainContainer')?.appendChild(welcomeText);
         document.querySelector('.welcomeHeader')?.insertAdjacentElement("afterend",container);
         if(this.state.getRole!= "Admin") {
@@ -56,7 +55,9 @@ export class ViewIdeas extends Utils {
             backButton.innerHTML = `<center><button type="button" class="back">Go Back</button></center>`;
             document.querySelector('#mainContainer')?.insertAdjacentElement("beforeend",backButton);
         }
+        this.showHideLoader(false);
         this.setupListeners();
+        this.signOutListener();
     }
     private setupListeners() {
         Array.from(document.querySelectorAll('.approve')).forEach((el:Element)=> {

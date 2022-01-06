@@ -9,8 +9,8 @@ export class SubmitIdea extends Utils{
         super();
     }
     render() {
-        this.showHideHeader('header',true);
         this.cleanUp();
+        document.querySelector('header')?.appendChild(document.importNode((document.querySelector('#headerTemplate')! as HTMLTemplateElement).content,true));
         const submitIdeaTemplate: HTMLTemplateElement = document.createElement('template');
         submitIdeaTemplate.innerHTML = `<div id="submitIdeaContainer">
             <center><h3>Submit your idea</h3></center>
@@ -29,6 +29,7 @@ export class SubmitIdea extends Utils{
         </div>`;    
         this.appendToMain(submitIdeaTemplate);
         this.setupListeners();
+        this.signOutListener();
     }
     private setupListeners() {
         document.querySelector('.submit')?.addEventListener('click',this.submit.bind(this));

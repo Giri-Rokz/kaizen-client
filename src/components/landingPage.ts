@@ -6,8 +6,8 @@ export class LandingPage extends Utils {
     }
     render() {
         this.showHideLoader(false);
-        this.showHideHeader('header',true);
         this.cleanUp();
+        document.querySelector('header')?.appendChild(document.importNode((document.querySelector('#headerTemplate')! as HTMLTemplateElement).content,true));
         const landingTemplate: HTMLTemplateElement = document.createElement('template');
         landingTemplate.innerHTML = `<div id="landingContainer">
             <center><h3>Welcome ${this.state.getUserName}</h3></center>
@@ -19,6 +19,7 @@ export class LandingPage extends Utils {
         </div>`;
         this.appendToMain(landingTemplate);
         this.setupListeners();
+        this.signOutListener();
     }
     private setupListeners() {
         document.querySelector('.viewIdeas')?.addEventListener('click',this.goToViewIdeas.bind(this));

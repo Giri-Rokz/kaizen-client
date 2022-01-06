@@ -43,8 +43,7 @@ export class Login extends Utils{
         this.appendToMain(template);
         document.querySelector('.kaizenLogo')?.setAttribute("src",logo);        
         this.setFavIcon();
-        this.showHideDOM(['.roleContainer','#createAccount'],false);                
-        this.showHideHeader('header',false);
+        this.showHideDOM(['.roleContainer','#createAccount'],false);
         this.setupListeners();
     }
     private setFavIcon() {
@@ -113,7 +112,6 @@ export class Login extends Utils{
         this.showHideDOM(['#signIn','.newUser', '.error'],false);
     }
     private signIn() {
-        debugger;
         if(this.validate()) {
             this.showHideLoader(true);
             const postBody:Payload<string|number> = {

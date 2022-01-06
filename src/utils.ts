@@ -10,14 +10,14 @@ export class Utils {
         while (document.querySelector('#mainContainer')?.firstChild) {
             document.querySelector('#mainContainer')?.removeChild(document.querySelector('#mainContainer')?.firstChild!);
         }
+        while(document.querySelector('header')?.firstChild) {
+            document.querySelector('header')?.removeChild(document.querySelector('header')?.firstChild!);
+        }
     }
     protected showHideDOM(selector:string[],changeDom:boolean) {
         for(let i in selector) {
             (<HTMLDivElement>document.querySelector(selector[i])).style.display = changeDom ? 'block' : 'none';
         }
-    }
-    protected showHideHeader(selector:string,changeDom:boolean) {
-        (<HTMLDivElement>document.querySelector(selector)).style.display = changeDom ? 'flex' : 'none';
     }
     protected appendToMain(template:HTMLTemplateElement) {
         document.querySelector('#mainContainer')?.appendChild(document.importNode(template.content,true));
@@ -58,5 +58,12 @@ export class Utils {
                 this.showHideDOM(['.fa-3x','#overlay'],false);
             }
         }
+    }
+    protected signOutListener() {
+        document.querySelector('#signOut')?.addEventListener('click',()=>{
+            this.state.setLoginState = false;
+            window.history.pushState(this.state,"Login","/");
+            this.state.handleRoute();
+        });
     }
 }
