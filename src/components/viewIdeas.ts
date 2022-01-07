@@ -6,6 +6,7 @@ type customIdeas = Idea<string|number>; //custom type
 
 export class ViewIdeas extends Utils {
     ideasArray: customIdeas[] = []; //Generic interface with array type here
+    showOverlayLocal = false;
     constructor() { //shorthand initialization used here
         super();
     }
@@ -55,7 +56,7 @@ export class ViewIdeas extends Utils {
             backButton.innerHTML = `<center><button type="button" class="back">Go Back</button></center>`;
             document.querySelector('#mainContainer')?.insertAdjacentElement("beforeend",backButton);
         }
-        this.showHideLoader(false);
+        !this.showOverlayLocal && this.showHideLoader(false);
         this.setupListeners();
         this.signOutListener();
     }
@@ -82,6 +83,7 @@ export class ViewIdeas extends Utils {
         if(like) {
             postBody.likes = likeCount;
         } else {
+            this.showOverlayLocal = true;
             this.showModal("Your actions have been recorded");
         }
         //typecast axios response type
