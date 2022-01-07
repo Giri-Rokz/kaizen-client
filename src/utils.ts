@@ -4,7 +4,7 @@ import { State } from "./internal";
 export class Utils {
     headers = {
         'Content-Type': 'application/json',
-        'Cache-Control': 'max-age=172800'
+        'Cache-Control': 'no-cache'
     }
     protected state = State.getInstance();
     protected cleanUp() {
