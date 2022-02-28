@@ -31,8 +31,10 @@ export class Login extends Utils{
                         <input type="password" placeholder="Password" name="password" id="password" value="">
                     </div>
                     <center><div class="error" style="display:none">Please enter valid credentials</div></center>
-                    <button type="button" id="signIn">Sign In</button>
-                    <button type="button" id="createAccount">Create New Account</button>
+                    <div class="actionDiv">
+                        <button type="button" id="signIn">Sign In</button>
+                        <button type="button" id="createAccount">Create New Account</button>
+                    </div>
                     <div class="newUser">
                         <center>New User? <a href="javascript:void(0)" id="signUp">Sign Up</a> here</center>
                     </div>
@@ -85,10 +87,11 @@ export class Login extends Utils{
                 password: (<HTMLInputElement>document.querySelector('#password'))?.value,
                 role: (<HTMLInputElement>document.querySelector('#role'))?.value,
             };
-            this.state.setUserName = postBody.username;
+            this.state.setUserName = postBody.username;            
             axios.post('/signUp',postBody,{'headers':this.headers})
             .then(resp=>{
                 this.showHideLoader(false);
+                this.state.setLoginState = true;
                 if(resp && resp.data.role=="1") {
                     window.history.pushState(this.state,"Landing Page","/#/landingPage");
                     this.state.handleRoute();
@@ -100,6 +103,8 @@ export class Login extends Utils{
             })
             .catch(err=>{
                 console.log(err);
+                document.querySelector('.error')!.innerHTML = err.response.data.errorMsg;
+                this.showHideDOM(['.error'],true);
                 this.showHideLoader(false);
             });
         } else {

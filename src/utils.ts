@@ -35,9 +35,9 @@ export class Utils {
         })
         return isValid;
     }
-    protected printError(selector: string) {
+    protected printError(selector: string,errorMsg: string) {
         if(!document.querySelector('.error')) {
-            document.querySelector(selector)?.insertAdjacentHTML('beforebegin',`<div class="error"><center>Please enter all values</center></div>`);
+            document.querySelector(selector)?.insertAdjacentHTML('beforebegin',`<div class="error"><center>${errorMsg}</center></div>`);
         }
     }
     protected gotoLanding() {

@@ -68,7 +68,7 @@ export class SubmitIdea extends Utils{
             })
             .catch(err=>console.log(`Error in submitting idea : ${err}`));
         } else {
-          this.printError('.actionDiv');
+          this.printError('.actionDiv','Please enter all values');
         }
     }    
 }
