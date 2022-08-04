@@ -79,12 +79,14 @@ export class Login extends Utils{
         }
         return this.validateData([usernameValidation,passwordValidation]);
     }
-    private createAccount() {
+    private async createAccount() {
         if(this.validate()) {
             this.showHideLoader(true);
+            //type casting - either use 'as' keyword or use angle brackets
             const postBody:Payload<string|number> = {
                 username: (<HTMLInputElement>document.querySelector('#username'))?.value,
-                password: (<HTMLInputElement>document.querySelector('#password'))?.value,
+                password: (document.querySelector("#password") as HTMLInputElement
+            ).value,
                 role: (<HTMLInputElement>document.querySelector('#role'))?.value,
             };
             this.state.setUserName = postBody.username;            
@@ -116,7 +118,7 @@ export class Login extends Utils{
         this.showHideDOM(['.roleContainer','#createAccount'],true);
         this.showHideDOM(['#signIn','.newUser','.error'],false);
     }
-    private signIn() {
+    private async signIn() {
         if(this.validate()) {
             this.showHideLoader(true);
             const postBody:Payload<string|number> = {
